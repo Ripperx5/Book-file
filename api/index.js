@@ -11,10 +11,11 @@ module.exports = async (req, res) => {
     return app(req, res);
   } catch (error) {
     console.error('Serverless function error:', error);
+    const isDebug = req.url?.includes('debug=1') || req.query?.debug === '1';
     res.status(500).json({
       success: false,
       message: 'Internal server error',
-      error: process.env.NODE_ENV === 'development' ? error.message : undefined,
+      ...(isDebug && { error: error.message }),
     });
   }
 };
