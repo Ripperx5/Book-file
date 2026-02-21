@@ -2,10 +2,10 @@ const mongoose = require('mongoose');
 
 const connectToDatabase = async () => {
   try {
-    let dbUri = process.env.MONGO_URI;
+    let dbUri = process.env.MONGO_URI || process.env.MONGODB_URI || process.env.DATABASE_URL;
 
     if (!dbUri) {
-      throw new Error('MONGO_URI is not defined in environment variables');
+      throw new Error('MONGO_URI is not defined. Add it in Vercel: Project Settings → Environment Variables, then Redeploy.');
     }
 
     // For Atlas: ensure authSource=admin (fixes "bad auth" on serverless)

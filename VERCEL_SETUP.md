@@ -1,13 +1,20 @@
 # Vercel Deployment Checklist
 
-If APIs return 500 or CORS errors, check these:
+If APIs return 500 or "MONGO_URI is not defined", check these:
 
 ## 1. Environment Variables (Vercel Dashboard)
-- **MONGO_URI**: Your MongoDB Atlas connection string
-  - Must include `authSource=admin` for Atlas:  
-    `...mongodb.net/Backend?retryWrites=true&w=majority&authSource=admin`
-  - URL-encode password: `@` → `%40`
-- **JWT_SECRET**: Same value you use locally
+
+**Important: Redeploy after adding env vars.** Vercel only picks them up on the next deployment.
+
+1. Go to your project → **Settings** → **Environment Variables**
+2. Add:
+   - **Name:** `MONGO_URI` (exactly, case-sensitive)
+   - **Value:** `mongodb+srv://sipungupta2311_db_user:Sipun2311@cluster0.a84qqfx.mongodb.net/Backend?retryWrites=true&w=majority&authSource=admin`
+   - **Environments:** Check **Production** and **Preview**
+3. Add `JWT_SECRET` the same way
+4. **Redeploy:** Deployments → ⋮ on latest → **Redeploy**
+
+Alternative names (MONGO_URI, MONGODB_URI, DATABASE_URL) are supported.
 
 ## 2. MongoDB Atlas Network Access
 - Go to MongoDB Atlas → Network Access → Add IP Address
