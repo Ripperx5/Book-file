@@ -19,6 +19,8 @@ app.use(apiLimiter);
 app.use('/api/users', userRoutes);
 app.use('/api/books', bookRoutes);
 
+app.get('/favicon.ico', (req, res) => res.status(204).end());
+
 app.get('/', (req, res) => {
   res.status(200).json({
     success: true,
