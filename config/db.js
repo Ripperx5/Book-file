@@ -2,10 +2,15 @@ const mongoose = require('mongoose');
 
 const connectToDatabase = async () => {
   try {
-    const dbUri = process.env.MONGO_URI;
+    let dbUri = process.env.MONGO_URI;
 
     if (!dbUri) {
       throw new Error('MONGO_URI is not defined in environment variables');
+    }
+
+    // For Atlas: ensure authSource=admin (fixes "bad auth" on serverless)
+    if (dbUri.includes('mongodb.net') && !dbUri.includes('authSource=')) {
+      dbUri += dbUri.includes('?') ? '&authSource=admin' : '?authSource=admin';
     }
 
     // Reuse existing connection (important for serverless)
