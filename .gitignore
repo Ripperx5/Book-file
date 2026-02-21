@@ -4,4 +4,6 @@ node_modules/
 .env*.local
 *.log
 .DS_Store
+
+# Vercel (created when you run vercel link locally)
 .vercel
