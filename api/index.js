@@ -6,8 +6,8 @@ const app = require('../server');
 const { connectToDatabase } = require('../config/db');
 
 module.exports = async (req, res) => {
-  const path = (req.url || req.originalUrl || '').split('?')[0];
-  const needsDb = path.startsWith('/api');
+  const path = (req.url || req.path || req.originalUrl || '/').split('?')[0];
+  const needsDb = path.startsWith('/api') && path !== '/api/health';
 
   try {
     if (needsDb) {
@@ -15,10 +15,11 @@ module.exports = async (req, res) => {
     }
     return app(req, res);
   } catch (error) {
-    console.error('Serverless function error:', error);
+    console.error('Serverless function error:', error.message || error);
     res.status(500).json({
       success: false,
       message: 'Internal server error',
+      error: error.message,
     });
   }
 };
